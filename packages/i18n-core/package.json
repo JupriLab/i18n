@@ -1,0 +1,44 @@
+{
+  "name": "@jupri-lab/i18n-core",
+  "version": "1.0.0",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "description": "Speak Easy. Effortless Internationalization for Your JavaScript Apps",
+  "scripts": {
+    "build:watch": "tsc --watch",
+    "build": "tsc"
+  },
+  "files": [
+    "dist/*",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "jupri",
+    "jupri-lab",
+    "juprilab",
+    "i18n",
+    "translation",
+    "internationalization"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Mikhael Esa",
+    "email": "mikhaelesaa@gmail.com"
+  },
+  "repository": {
+    "url": "https://github.com/JupriLab/i18n.git",
+    "directory": "packages/i18n-core",
+    "type": "git"
+  },
+  "homepage": "https://github.com/JupriLab/i18n",
+  "bugs": {
+    "url": "https://github.com/JupriLab/i18n/issues"
+  }
+}
