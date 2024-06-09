@@ -4,6 +4,9 @@
   - String wrapped with `[]` can be interpolated
   - Added escape HTML feature to prevent XSS. `true` by default
 - Create move query params logic to `appendQueryParams` function in utils
+- Fixed some typos in documentation.
+- Bump package.json version to 2.0.0
+- Update documentation for interpolation.
 
 # v1.0.0
 
