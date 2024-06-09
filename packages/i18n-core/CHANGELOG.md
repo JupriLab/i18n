@@ -5,6 +5,8 @@
   - `interpolation.spec.ts`
   - `escapesHTML.spec.ts`
   - `eventManager.spec.ts`
+- Moved i18n class to `i18n.ts` and re-exports it through `index.ts`
+- Exported types.
 
 # v2.0.0
 
