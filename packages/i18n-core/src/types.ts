@@ -13,7 +13,7 @@ export interface Ii18nConfigs<
   /**
    * To read current language through query param
    */
-  queryParam: string;
+  queryParam?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resources: Record<TLanguage, TResources> | undefined;
 }
@@ -27,4 +27,19 @@ export type ILooseObject = Record<string, any>;
 
 export interface IEventListener<T extends any[]> {
   (...args: T): void;
+}
+
+export interface ITranslateOptions extends ILooseObject {
+  escapeHTML?: boolean;
+  /**
+   * To add interpolation to you translation.
+   *
+   * @example
+   * en: {
+   *  greeting: "Good [time]"
+   * }
+   *
+   * translate("greeting", { interpolation: { time: "Morning" } }) // Good Morning
+   */
+  interpolation?: ILooseObject;
 }
