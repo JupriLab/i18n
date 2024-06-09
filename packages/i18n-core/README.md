@@ -24,7 +24,7 @@ Define the languages your application supports and provide the corresponding tra
 import i18n from "@jupri-lab/i18n-core";
 
 const i18nInstance = new i18n({
-  languages: ["en", "id"],
+  languages: ["en", "nl"],
   resources: {
     en: {
       morning: "Good morning",
@@ -73,7 +73,49 @@ i18nInstance.on("language_changed", () => {
 });
 ```
 
-### Benefits:
+## Interpolation
+
+The interpolation function allows you to replace placeholders within a string template with corresponding values from a provided object. It supports escaping HTML characters to prevent XSS (Cross-Site Scripting) attacks.
+
+### Usage
+
+```ts
+const myi18n = new I18n({
+  languages: ["en", "nl"],
+  resources: {
+    en: {
+      greeting: "Hello, my name is [name]",
+      portfolio: "My GitHub [github] and my LinkedIn [linkedin]",
+    },
+    nl: {
+      greeting: "Hij, ik ben [name]",
+      portfolio: "Mijn GitHub [github] en mijn LinkedIn [linkedin]",
+    },
+  },
+});
+```
+
+```ts
+myi18n.translate("greeting", { interpolation: { name: "Esa" } });
+myi18n.translate("portfolio", {
+  interpolation: {
+    github: "https://github.com/JupriLab",
+    linkedin: "https://www.linkedin.com/in/mikhael-esa/",
+  },
+});
+
+// Output:
+// - Hello, my name is Esa.
+// - Hij, ik ben Esa.
+
+// Output:
+// - My GitHub https://github.com/JupriLab and my LinkedIn https://www.linkedin.com/in/mikhael-esa/
+// - Mijn GitHub https://github.com/JupriLab en mijn LinkedIn https://www.linkedin.com/in/mikhael-esa/
+```
+
+> When writing interpolation, they identifier inside the resource and the translate function has to be the same.
+
+## Benefits:
 
 - **Simple and intuitive API**
 - **Lightweight and dependency-free**

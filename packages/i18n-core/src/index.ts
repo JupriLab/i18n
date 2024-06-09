@@ -1,5 +1,8 @@
 import EventManager from "./EventManager";
-import type { ILooseObject, Ii18nConfigs } from "./types";
+import type { ILooseObject, ITranslateOptions, Ii18nConfigs } from "./types";
+import { appendQueryParams } from "./utils/appendQueryParams.util";
+import { escapeHTMLTags } from "./utils/escapeHTMLTags.util";
+import { interpolate } from "./utils/interpolate.util";
 
 class i18n<TLanguage extends string, TResources extends object> {
   private languages: TLanguage[] = [];
@@ -32,17 +35,17 @@ class i18n<TLanguage extends string, TResources extends object> {
     // To avoid spamming
     if (currentLanguage === language) return;
 
-    if (this.enableQueryParams) {
-      const newURL = new URL(window.location.href);
-      newURL.searchParams.set(this.queryParam, nextLanguage);
-      window.history.replaceState({}, "", newURL.href);
-    }
+    if (this.enableQueryParams)
+      appendQueryParams(this.queryParam, nextLanguage);
 
     localStorage.setItem(this.queryParam, nextLanguage);
     this.eventManager.trigger("language_changed");
   }
 
-  translate(identifier: string, _options = {}) {
+  translate(
+    identifier: string,
+    data: ITranslateOptions = { escapeHTML: true },
+  ) {
     const parts = identifier.split(".");
     const currentLanguage = this.getCurrentLanguage() || this.languages[0];
     const currentTranslation = (this.resources as ILooseObject)[
@@ -54,7 +57,13 @@ class i18n<TLanguage extends string, TResources extends object> {
       for (const part of parts) {
         currentObject = currentObject[part as keyof typeof currentObject];
       }
-      return currentObject as string;
+
+      if (data.interpolation)
+        return interpolate(currentObject, data.interpolation, data.escapeHTML);
+
+      return data.escapeHTML
+        ? escapeHTMLTags(currentObject as string)
+        : (currentObject as string);
     }
     throw new Error("i18n resource is not initialized");
   }
