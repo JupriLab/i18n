@@ -1,3 +1,13 @@
+# June 6th 2024
+
+- Integrated jest for typescript and monorepo
+- Wrote test cases with jest
+  - `interpolation.spec.ts`
+  - `escapesHTML.spec.ts`
+  - `eventManager.spec.ts`
+- Moved i18n class to `i18n.ts` and re-exports it through `index.ts`
+- Exported types.
+
 # v2.0.0
 
 - Added interpolation feature
