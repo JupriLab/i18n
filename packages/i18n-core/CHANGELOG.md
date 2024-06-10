@@ -1,3 +1,9 @@
+# v2.1.0
+
+- Removed localStorage to persist data by default and will add it as an optional feature that can be enabled by setting a flag.
+- Store `currentLanguage` locally and only provide one option to persist `currentLanguage` which is through `queryParam` by setting `enableQueryparams` to true.
+- Set tsconfig module to esnext.
+
 # June 6th 2024
 
 - Integrated jest for typescript and monorepo

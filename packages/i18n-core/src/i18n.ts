@@ -10,17 +10,23 @@ class i18n<TLanguage extends string, TResources extends object> {
   private queryParam = "lang";
   private enableQueryParams = false;
   private eventManager = new EventManager();
+  private currentLanguage: TLanguage;
+
   constructor(configs: Ii18nConfigs<TLanguage, TResources>) {
+    this.currentLanguage = configs.languages[0];
     Object.assign(this, configs);
   }
 
   getCurrentLanguage() {
     if (this.enableQueryParams) {
       const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(this.queryParam);
+      const param = urlParams.get(this.queryParam) as TLanguage;
+      if (param) {
+        this.currentLanguage = param;
+      }
     }
 
-    return localStorage.getItem(this.queryParam);
+    return this.currentLanguage;
   }
 
   getChangeLanguageHandler(language?: TLanguage) {
@@ -29,17 +35,13 @@ class i18n<TLanguage extends string, TResources extends object> {
     if (typeof window === "undefined")
       throw new Error("Environment other than browser is not supported");
 
-    const currentLanguage = this.getCurrentLanguage() || this.languages[0];
-    const nextLanguage = language || currentLanguage;
+    if (this.currentLanguage === language) return;
 
-    // To avoid spamming
-    if (currentLanguage === language) return;
-
-    if (this.enableQueryParams)
-      appendQueryParams(this.queryParam, nextLanguage);
-
-    localStorage.setItem(this.queryParam, nextLanguage);
-    this.eventManager.trigger("language_changed");
+    if (language) {
+      this.currentLanguage = language;
+      if (this.enableQueryParams) appendQueryParams(this.queryParam, language);
+      this.eventManager.trigger("language_changed");
+    }
   }
 
   translate(
@@ -47,13 +49,13 @@ class i18n<TLanguage extends string, TResources extends object> {
     data: ITranslateOptions = { escapeHTML: true },
   ) {
     const parts = identifier.split(".");
-    const currentLanguage = this.getCurrentLanguage() || this.languages[0];
     const currentTranslation = (this.resources as ILooseObject)[
-      currentLanguage
+      this.getCurrentLanguage()
     ];
+
     let currentObject = currentTranslation;
 
-    if (currentTranslation && currentLanguage) {
+    if (currentTranslation) {
       for (const part of parts) {
         currentObject = currentObject[part as keyof typeof currentObject];
       }

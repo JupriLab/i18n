@@ -6,8 +6,7 @@
     "test:i18n-core": "jest --selectProjects=i18n-core"
   },
   "workspaces": [
-    "packages/*",
-    "apps/test"
+    "packages/*"
   ],
   "license": "MIT",
   "author": {
