@@ -1,3 +1,9 @@
+# v2.1.1
+
+- Removed throw new Error when user is not in browser environment.
+  - Will support node environment in future version as node also has URL object
+- Wrote test cases for i18n.
+
 # v2.1.0
 
 - Removed localStorage to persist data by default and will add it as an optional feature that can be enabled by setting a flag.
