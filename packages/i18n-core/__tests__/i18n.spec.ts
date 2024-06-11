@@ -18,6 +18,8 @@ describe("i18n", () => {
         es: { greeting: "Hola" },
       },
     });
+    (escapeHTMLTags as jest.Mock).mockClear();
+    (interpolate as jest.Mock).mockClear();
   });
 
   test("initializes with the first language and resources", () => {
@@ -52,6 +54,7 @@ describe("i18n", () => {
       escapeHTML: false,
     });
     expect(translation).toBe("Hello");
+    expect(escapeHTMLTags).not.toHaveBeenCalled();
   });
 
   test("translates an identifier with interpolation", () => {

@@ -1,3 +1,13 @@
+# v2.1.2
+
+- Refactored codebase into single responsibility classes.
+  - Created `TranslationManager`, and `LanguageManager`.
+  - `i18n` is now more manageable.
+- Added new type `TEvents` for type safety and better DX
+- Created test cases for `LanguageManager`, and `TranslationManager`
+- Removed `ILooseObject` from export
+- Added `TEvents` to export
+
 # v2.1.1
 
 - Removed throw new Error when user is not in browser environment.

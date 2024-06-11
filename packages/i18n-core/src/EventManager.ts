@@ -1,15 +1,21 @@
-import type { IEventListener, ILooseObject } from "./types";
+import type { IEventListener, ILooseObject, TEvents } from "./types";
 
-export default class EventManager {
+export default class EventManager<TPredefinedEvents extends string = TEvents> {
   private listeners: Record<string, IEventListener<any>[]> = {};
 
-  on<T extends any[]>(eventName: string, callback: IEventListener<T>): void {
+  on<T extends any[]>(
+    eventName: TPredefinedEvents,
+    callback: IEventListener<T>,
+  ): void {
     if (!(this.listeners as ILooseObject)[eventName]) {
       this.listeners[eventName] = [];
     }
     this.listeners[eventName].push(callback);
   }
-  off<T extends any[]>(eventName: string, callback: IEventListener<T>): void {
+  off<T extends any[]>(
+    eventName: TPredefinedEvents,
+    callback: IEventListener<T>,
+  ): void {
     const eventListeners = this.listeners[eventName];
     if (eventListeners.length) {
       const index = eventListeners.indexOf(callback);
@@ -18,7 +24,7 @@ export default class EventManager {
       }
     }
   }
-  trigger<T extends any[]>(eventName: string, ...args: T): void {
+  trigger<T extends any[]>(eventName: TPredefinedEvents, ...args: T): void {
     if ((this.listeners as ILooseObject)[eventName]) {
       for (const listener of this.listeners[eventName]) {
         listener(...args);

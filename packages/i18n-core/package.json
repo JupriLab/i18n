@@ -1,6 +1,6 @@
 {
   "name": "@jupri-lab/i18n-core",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -8,7 +8,13 @@
   "scripts": {
     "build:watch": "tsc --watch",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "test:translationManager": "jest __tests__/translationManager.spec.ts",
+    "test:i18n": "jest __tests__/i18n.spec.ts",
+    "test:eventManager": "jest __tests__/eventManager.spec.ts",
+    "test:languageManager": "jest __tests__/languageManager.spec.ts",
+    "test:interpolation": "jest __tests__/interpolation.spec.ts",
+    "test:escapesHTML": "jest __tests__/escapesHTML.spec.ts"
   },
   "files": [
     "dist/*",
