@@ -1,10 +1,10 @@
 import i18n from "./i18n";
 import type {
   IEventListener,
-  ILooseObject,
   ITranslateOptions,
   Ii18nConfigs,
+  TEvents,
 } from "./types";
 
 export default i18n;
-export type { IEventListener, ILooseObject, ITranslateOptions, Ii18nConfigs };
+export type { IEventListener, ITranslateOptions, Ii18nConfigs, TEvents };

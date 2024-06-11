@@ -43,3 +43,5 @@ export interface ITranslateOptions extends ILooseObject {
    */
   interpolation?: ILooseObject;
 }
+
+export type TEvents = "language_changed";

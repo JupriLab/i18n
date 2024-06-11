@@ -2,7 +2,7 @@ import EventManager from "../src/EventManager";
 import type { IEventListener } from "../src/types";
 
 describe("EventManager", () => {
-  let eventManager: EventManager;
+  let eventManager: EventManager<string>;
 
   beforeEach(() => {
     eventManager = new EventManager();

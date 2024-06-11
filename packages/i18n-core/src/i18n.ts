@@ -1,45 +1,38 @@
 import EventManager from "./EventManager";
-import type { ILooseObject, ITranslateOptions, Ii18nConfigs } from "./types";
-import { appendQueryParams } from "./utils/appendQueryParams.util";
-import { escapeHTMLTags } from "./utils/escapeHTMLTags.util";
-import { interpolate } from "./utils/interpolate.util";
+import LanguageManager from "./LanguageManager";
+import TranslationManager from "./TranslationManager";
+import type { ITranslateOptions, Ii18nConfigs, TEvents } from "./types";
 
-class i18n<TLanguage extends string, TResources extends object> {
-  private languages: TLanguage[] = [];
-  private resources: Record<TLanguage, TResources> | undefined;
-  private queryParam = "lang";
-  private enableQueryParams = false;
-  private eventManager = new EventManager();
-  private currentLanguage: TLanguage;
+class i18n<
+  TLanguage extends string,
+  TResources extends object,
+  TPredefinedEvents extends string = TEvents,
+> {
+  private languageManager: LanguageManager<TLanguage>;
+  private eventManager: EventManager<TPredefinedEvents>;
+  private translationManager: TranslationManager<TLanguage, TResources>;
 
   constructor(configs: Ii18nConfigs<TLanguage, TResources>) {
-    this.currentLanguage = configs.languages[0];
-    Object.assign(this, configs);
+    const { enableQueryParams = false, queryParam = "lang" } = configs;
+    this.eventManager = new EventManager();
+    this.languageManager = new LanguageManager({
+      enableQueryParams,
+      initialLanguage: configs.languages[0],
+      languages: configs.languages,
+      queryParam,
+    });
+    this.translationManager = new TranslationManager(configs.resources);
   }
 
   getCurrentLanguage() {
-    if (this.enableQueryParams) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const param = urlParams.get(this.queryParam) as TLanguage;
-      if (param) {
-        this.currentLanguage = param;
-      }
-    }
-
-    return this.currentLanguage;
+    return this.languageManager.getCurrentLanguage();
   }
 
   getChangeLanguageHandler(language?: TLanguage) {
-    if (language && !this.languages.includes(language))
+    if (language && !this.languageManager.getLanguages().includes(language))
       throw new Error("Language is not recognized in the supported languages");
-
-    if (this.currentLanguage === language) return;
-
-    if (language) {
-      this.currentLanguage = language;
-      if (this.enableQueryParams) appendQueryParams(this.queryParam, language);
-      this.eventManager.trigger("language_changed");
-    }
+    if (language)
+      this.languageManager.changeLanguage(language, this.eventManager);
   }
 
   translate(
@@ -47,29 +40,15 @@ class i18n<TLanguage extends string, TResources extends object> {
     data: ITranslateOptions = { escapeHTML: true },
   ) {
     const { escapeHTML = true, interpolation } = data;
-    const parts = identifier.split(".");
-    const currentTranslation = (this.resources as ILooseObject)[
-      this.getCurrentLanguage()
-    ];
-
-    let currentObject = currentTranslation;
-
-    if (currentTranslation) {
-      for (const part of parts) {
-        currentObject = currentObject[part as keyof typeof currentObject];
-      }
-
-      if (interpolation)
-        return interpolate(currentObject, interpolation, escapeHTML);
-
-      return escapeHTML
-        ? escapeHTMLTags(currentObject as string)
-        : (currentObject as string);
-    }
-    throw new Error("i18n resource is not initialized");
+    return this.translationManager.translate({
+      currentLanguage: this.languageManager.getCurrentLanguage(),
+      escapeHTML,
+      identifier,
+      interpolation,
+    });
   }
 
-  on(eventName: "language_changed", callback: () => any) {
+  on(eventName: TPredefinedEvents, callback: () => any) {
     this.eventManager.on(eventName, callback);
   }
 }
