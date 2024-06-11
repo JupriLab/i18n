@@ -32,8 +32,6 @@ class i18n<TLanguage extends string, TResources extends object> {
   getChangeLanguageHandler(language?: TLanguage) {
     if (language && !this.languages.includes(language))
       throw new Error("Language is not recognized in the supported languages");
-    if (typeof window === "undefined")
-      throw new Error("Environment other than browser is not supported");
 
     if (this.currentLanguage === language) return;
 
@@ -48,6 +46,7 @@ class i18n<TLanguage extends string, TResources extends object> {
     identifier: string,
     data: ITranslateOptions = { escapeHTML: true },
   ) {
+    const { escapeHTML = true, interpolation } = data;
     const parts = identifier.split(".");
     const currentTranslation = (this.resources as ILooseObject)[
       this.getCurrentLanguage()
@@ -60,10 +59,10 @@ class i18n<TLanguage extends string, TResources extends object> {
         currentObject = currentObject[part as keyof typeof currentObject];
       }
 
-      if (data.interpolation)
-        return interpolate(currentObject, data.interpolation, data.escapeHTML);
+      if (interpolation)
+        return interpolate(currentObject, interpolation, escapeHTML);
 
-      return data.escapeHTML
+      return escapeHTML
         ? escapeHTMLTags(currentObject as string)
         : (currentObject as string);
     }
