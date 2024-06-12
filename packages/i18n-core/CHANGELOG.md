@@ -1,3 +1,8 @@
+# v2.1.4
+
+- Integrated rollup for bundling and reduces bundle size and package size
+- Set tsconfig.json declaration property to false and let rollup generates the .d.ts files
+
 # v2.1.3
 
 - Removed `escapeHTMLTags` and `interpolate` utils and move them to `TranslationManager` as private methods.
