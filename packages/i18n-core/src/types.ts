@@ -14,7 +14,6 @@ export interface Ii18nConfigs<
    * To read current language through query param
    */
   queryParam?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resources: Record<TLanguage, TResources> | undefined;
 }
 
@@ -22,7 +21,6 @@ export type TNestedKeyOf<T extends object> = {
   [Key in keyof T]: T[Key] extends object ? TNestedKeyOf<T[Key]> : Key;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ILooseObject = Record<string, any>;
 
 export interface IEventListener<T extends any[]> {
