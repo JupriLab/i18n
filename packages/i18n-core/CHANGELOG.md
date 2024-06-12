@@ -1,3 +1,10 @@
+# v2.1.3
+
+- Removed `escapeHTMLTags` and `interpolate` utils and move them to `TranslationManager` as private methods.
+- Removed `appendQueryParams` util and move it to `LanguageManager` as private method
+- Removed mocks in tests for simpler testing
+- Removed test cases for `escapeHTMLTags` and `interpolate`
+
 # v2.1.2
 
 - Refactored codebase into single responsibility classes.

@@ -6,10 +6,8 @@ describe("LanguageManager", () => {
   let eventManager: EventManager;
 
   beforeEach(() => {
-    // Mock EventManager
     eventManager = new EventManager();
 
-    // Initialize LanguageManager
     languageManager = new LanguageManager({
       enableQueryParams: false,
       initialLanguage: "en",

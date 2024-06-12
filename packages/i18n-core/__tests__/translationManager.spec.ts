@@ -1,22 +1,17 @@
 import TranslationManager from "../src/TranslationManager";
-import { escapeHTMLTags } from "../src/utils/escapeHTMLTags.util";
-import { interpolate } from "../src/utils/interpolate.util";
-
-jest.mock("../src/utils/escapeHTMLTags.util");
-jest.mock("../src/utils/interpolate.util");
 
 describe("TranslationManager", () => {
   const resources = {
     en: {
-      farewell: "Goodbye",
       greeting: "Hello",
+      greetingInterpolate: "Hello, [name]",
       nested: {
         message: "Nested message",
       },
     },
     fr: {
-      farewell: "Au revoir",
       greeting: "Bonjour",
+      greetingInterpolate: "Hello, [name]",
       nested: {
         message: "Nested message",
       },
@@ -27,13 +22,9 @@ describe("TranslationManager", () => {
 
   beforeEach(() => {
     translationManager = new TranslationManager(resources);
-    (escapeHTMLTags as jest.Mock).mockClear();
-    (interpolate as jest.Mock).mockClear();
   });
 
   it("translates an identifier without interpolation and escaping HTML", () => {
-    (escapeHTMLTags as jest.Mock).mockReturnValue("Hello");
-
     const result = translationManager.translate({
       currentLanguage: "en",
       escapeHTML: true,
@@ -41,7 +32,6 @@ describe("TranslationManager", () => {
     });
 
     expect(result).toBe("Hello");
-    expect(escapeHTMLTags).toHaveBeenCalledWith("Hello");
   });
 
   it("translates an identifier without interpolation and without escaping HTML", () => {
@@ -53,37 +43,31 @@ describe("TranslationManager", () => {
     });
 
     expect(result).toBe("Hello");
-    expect(escapeHTMLTags).not.toHaveBeenCalled();
   });
 
   it("translates an identifier with interpolation and escaping HTML", () => {
-    const interpolation = { name: "John" };
-    (interpolate as jest.Mock).mockReturnValue("Hello, John");
-
+    const interpolation = { name: "<p>John</p>" };
     const result = translationManager.translate({
       currentLanguage: "en",
       escapeHTML: true,
-      identifier: "greeting",
+      identifier: "greetingInterpolate",
       interpolation,
     });
 
-    expect(result).toBe("Hello, John");
-    expect(interpolate).toHaveBeenCalledWith("Hello", interpolation, true);
+    expect(result).toBe("Hello, &lt;p&gt;John&lt;&#47;p&gt;");
   });
 
   it("translates an identifier with interpolation and without escaping HTML", () => {
     const interpolation = { name: "John" };
-    (interpolate as jest.Mock).mockReturnValue("Hello, John");
 
     const result = translationManager.translate({
       currentLanguage: "en",
       escapeHTML: false,
-      identifier: "greeting",
+      identifier: "greetingInterpolate",
       interpolation,
     });
 
     expect(result).toBe("Hello, John");
-    expect(interpolate).toHaveBeenCalledWith("Hello", interpolation, false);
   });
 
   it("throws an error if the resource is not initialized", () => {

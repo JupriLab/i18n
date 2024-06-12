@@ -1,16 +1,9 @@
 import i18n from "../src/i18n";
-import { escapeHTMLTags } from "../src/utils/escapeHTMLTags.util";
-import { interpolate } from "../src/utils/interpolate.util";
-
-jest.mock("../src/utils/appendQueryParams.util");
-jest.mock("../src/utils/escapeHTMLTags.util");
-jest.mock("../src/utils/interpolate.util");
 
 describe("i18n", () => {
   let i18nInstance: i18n<"en" | "es", { greeting: string }>;
 
   beforeEach(() => {
-    jest.clearAllMocks();
     i18nInstance = new i18n({
       languages: ["en", "es"],
       resources: {
@@ -18,8 +11,6 @@ describe("i18n", () => {
         es: { greeting: "Hola" },
       },
     });
-    (escapeHTMLTags as jest.Mock).mockClear();
-    (interpolate as jest.Mock).mockClear();
   });
 
   test("initializes with the first language and resources", () => {
@@ -54,26 +45,19 @@ describe("i18n", () => {
       escapeHTML: false,
     });
     expect(translation).toBe("Hello");
-    expect(escapeHTMLTags).not.toHaveBeenCalled();
   });
 
   test("translates an identifier with interpolation", () => {
-    (interpolate as jest.Mock).mockImplementation(
-      (str, _data, _escapeHTML) => str,
-    );
     i18nInstance.translate("greeting", {
       interpolation: { name: "John" },
     });
-    expect(interpolate).toHaveBeenCalledWith("Hello", { name: "John" }, true);
   });
 
   test("handles translation with escapeHTML option", () => {
-    (escapeHTMLTags as jest.Mock).mockReturnValue("Hello");
     const translation = i18nInstance.translate("greeting", {
       escapeHTML: true,
     });
     expect(translation).toBe("Hello");
-    expect(escapeHTMLTags).toHaveBeenCalledWith("Hello");
   });
 
   test("registers an event listener", () => {
