@@ -2,6 +2,9 @@
   "name": "@jupri-lab/i18n",
   "private": true,
   "scripts": {
+    "build:react-i18n": "npm -w packages/react-i18n run build",
+    "watch:react-i18n": "npm -w packages/react-i18n run build:watch",
+    "build:i18n-core": "npm -w packages/i18n-core run build",
     "watch:i18n-core": "npm -w packages/i18n-core run build:watch",
     "test:i18n-core": "jest --selectProjects=i18n-core"
   },
@@ -23,11 +26,14 @@
   },
   "devDependencies": {
     "@jupri-lab/eslint-config-typescript": "^0.1.2",
+    "@jupri-lab/eslint-config-typescript-react": "^0.1.1",
     "@types/jest": "29.5.12",
     "@types/node": "^20.14.1",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
     "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
     "eslint-plugin-sort-keys": "^2.3.5",
     "eslint-plugin-typescript-sort-keys": "^3.2.0",
