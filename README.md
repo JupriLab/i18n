@@ -10,6 +10,10 @@ Try other [JupriLab](https://github.com/JupriLab) libraries:
 - [JupriLab ESLint Config Typescript React](https://www.npmjs.com/package/@jupri-lab/eslint-config-typescript-react)
 - [JupriLab i18n](https://www.npmjs.com/package/@jupri-lab/i18n-core)
 
+## Adapter available!
+
+- [React i18n](https://www.npmjs.com/package/@jupri-lab/react-i18n)
+
 ## Key Benefits
 
 - **Simple and intuitive API**

@@ -1,0 +1,59 @@
+{
+  "name": "@jupri-lab/react-i18n",
+  "version": "2.1.4",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "description": "Speak Easy. Effortless Internationalization for Your React Apps",
+  "scripts": {
+    "build:watch": "rollup -c -w",
+    "build": "rollup -c"
+  },
+  "files": [
+    "dist/*",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "jupri",
+    "jupri-lab",
+    "juprilab",
+    "react-i18n",
+    "translation",
+    "internationalization"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Mikhael Esa",
+    "email": "mikhaelesaa@gmail.com",
+    "url": "https://linkedin.com/in/mikhaelesa"
+  },
+  "repository": {
+    "url": "https://github.com/JupriLab/i18n.git",
+    "directory": "packages/react-i18n",
+    "type": "git"
+  },
+  "homepage": "https://github.com/JupriLab/i18n",
+  "bugs": {
+    "url": "https://github.com/JupriLab/i18n/issues"
+  },
+  "dependencies": {
+    "@jupri-lab/i18n-core": "*"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
